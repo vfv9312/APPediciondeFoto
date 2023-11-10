@@ -7,6 +7,8 @@ import Button from './src/component/Button';
 import IconButton from './src/component/ButtonIcon';
 import CircleButton from './src/component/ButtonCirculo';
 import ModalEmoji from "./src/component/ModalEmoji";
+import EmojiList from './src/component/EmojisList';
+import EmojiSticker from './src/component/EmojisSticker';
 
 
 const PlaceholderImage:ImageSourcePropType  = require('./src/assets/background-image.jpg');// imagen
@@ -16,6 +18,7 @@ export default function App() {
   const [selectedImage, setSelectedImage] = useState<string|null>(null);
   const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [pickedEmoji, setPickedEmoji] = useState(null);
 
   const onReset = () => {//el boton de rest va dar el estado false
     setShowAppOptions(false);
@@ -55,6 +58,7 @@ export default function App() {
         <ImageView placeholderImageSource ={PlaceholderImage}
         selectedImage={selectedImage}
         />
+        {pickedEmoji !== null ? <EmojiSticker imageSize={40} stickerSource={pickedEmoji} /> : null}
       </View>
       {showAppOptions ? (
                 <View style={styles.optionsContainer}>
@@ -71,7 +75,7 @@ export default function App() {
         </View>
       )}
      <ModalEmoji isVisible={isModalVisible} onClose={onModalClose}>
-      
+     <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
      </ModalEmoji>
       <StatusBar style="auto" />
       
