@@ -9,6 +9,15 @@ export default function EmojiList({ onSelect, onCloseModal }:{onSelect:React.Dis
     require('../../assets/emoji4.png'),
     require('../../assets/emoji5.png'),
     require('../../assets/emoji6.png'),
+    require('../../assets/emoji7.png'),
+    require('../../assets/emoji8.png'),
+    require('../../assets/emoji9.png'),
+    require('../../assets/emoji10.png'),
+    require('../../assets/emoji11.png'),
+    require('../../assets/emoji12.png'),
+    require('../../assets/emoji13.png'),
+    require('../../assets/emoji14.png'),
+    require('../../assets/emoji15.png'),
   ]);
 
   return (

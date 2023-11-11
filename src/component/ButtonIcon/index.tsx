@@ -5,7 +5,7 @@ export default function IconButton({ icon, label, onPress }:{icon:any,label:stri
   
   return (
     <Pressable style={styles.iconButton} onPress={onPress}>
-      <MaterialIcons name={icon} size={24} color="#fff"/>
+      <MaterialIcons name={icon} size={24} color="green"/>
       <Text style={styles.iconButtonLabel}>{label}</Text>
       
     </Pressable>
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconButtonLabel: {
-    color: '#fff',
+    color: 'red',
     marginTop: 12,
   },
 });

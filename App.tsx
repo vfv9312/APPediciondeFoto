@@ -1,7 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from 'expo-splash-screen';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
-import { ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
-import { useState } from 'react';
+import { ImageSourcePropType, StyleSheet, Text, View, ViewProps } from 'react-native';
+import React, { useRef, useState } from 'react';
 import {ImageView} from './src/ImageView';
 import Button from './src/component/Button';
 import IconButton from './src/component/ButtonIcon';
@@ -9,6 +12,13 @@ import CircleButton from './src/component/ButtonCirculo';
 import ModalEmoji from "./src/component/ModalEmoji";
 import EmojiList from './src/component/EmojisList';
 import EmojiSticker from './src/component/EmojisSticker';
+import { captureRef } from 'react-native-view-shot';
+
+
+SplashScreen.preventAutoHideAsync();
+setTimeout(SplashScreen.hideAsync, 1000);
+
+
 
 
 const PlaceholderImage:ImageSourcePropType  = require('./src/assets/background-image.jpg');// imagen
@@ -19,6 +29,14 @@ export default function App() {
   const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [pickedEmoji, setPickedEmoji] = useState(null);
+  const [status, requestPermission] = MediaLibrary.usePermissions();
+  const imageRef = useRef<View|null>(null);
+
+
+
+  if (status === null) {
+    requestPermission();
+  }
 
   const onReset = () => {//el boton de rest va dar el estado false
     setShowAppOptions(false);
@@ -29,7 +47,19 @@ export default function App() {
   };
 
   const onSaveImageAsync = async () => {
-    // we will implement this later
+    try {
+      const localUri = await captureRef(imageRef, {
+        height: 440,
+        quality: 1,
+      });
+
+      await MediaLibrary.saveToLibraryAsync(localUri);
+      if (localUri) {
+        alert("Saved!");
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const onModalClose = () => {
@@ -52,13 +82,15 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
      
             <View style={styles.imageContainer}>
+            <View ref={imageRef} collapsable={false}>
         <ImageView placeholderImageSource ={PlaceholderImage}
         selectedImage={selectedImage}
         />
         {pickedEmoji !== null ? <EmojiSticker imageSize={40} stickerSource={pickedEmoji} /> : null}
+        </View>
       </View>
       {showAppOptions ? (
                 <View style={styles.optionsContainer}>
@@ -77,9 +109,9 @@ export default function App() {
      <ModalEmoji isVisible={isModalVisible} onClose={onModalClose}>
      <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
      </ModalEmoji>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       
-    </View>
+    </GestureHandlerRootView >
   );
   
 }

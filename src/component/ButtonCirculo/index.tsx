@@ -1,7 +1,7 @@
-import { View, Pressable, StyleSheet } from 'react-native';
+import { View, Pressable, StyleSheet, GestureResponderEvent } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-export default function CircleButton({ onPress }:{onPress:any}) {
+export default function CircleButton({ onPress }:{onPress:()=>void}) {
   return (
     <View style={styles.circleButtonContainer}>
       <Pressable style={styles.circleButton} onPress={onPress}>
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     height: 84,
     marginHorizontal: 60,
     borderWidth: 4,
-    borderColor: '#ffd33d',
+    borderColor: 'green',
     borderRadius: 42,
     padding: 3,
   },
